@@ -9,6 +9,8 @@ export default class SpriteSheet{
         const buffer = document.createElement('canvas');
         buffer.width = width;
         buffer.height = height;
+        
+        
         buffer.getContext('2d').drawImage(
             this.image,
             x,
@@ -18,8 +20,23 @@ export default class SpriteSheet{
             0,
             0,
             width,
-            height);
+            height
+        )
         this.tiles.set(name,buffer);
+        // const context = buffer.getContext('2d');
+        // context.scale(-1,1);
+        // context.translate(-width,0);
+        // context.drawImage(
+        //     this.image,
+        //     x,
+        //     y,
+        //     width,
+        //     height,
+        //     0,
+        //     0,
+        //     width,
+        //     height);
+        // this.tiles.set(name,buffer);
     }
 
     defineTile(name,x,y){
