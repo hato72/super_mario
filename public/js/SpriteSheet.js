@@ -4,7 +4,13 @@ export default class SpriteSheet{
         this.width = width;
         this.height = height;
         this.tiles = new Map();
+        this.animation = new Map();
     }
+
+    defineAnim(name,animation){
+        this.animation.set(name,animation);
+    }
+
     define(name,x,y,width,height){
         const buffers = [false,true].map(flip =>{
             const buffer = document.createElement('canvas');
@@ -61,6 +67,11 @@ export default class SpriteSheet{
         //const buffer = this.tiles.get(name);
         const buffer = this.tiles.get(name)[flip ? 1 : 0]; //1でミラーに
         context.drawImage(buffer,x,y);
+    }
+
+    drawAnim(name,context,x,y,distance){
+        const animation = this.animation.get(name)
+        this.drawTile(animation(distance),context,x,y)
     }
 
     drawTile(name,context,x,y){

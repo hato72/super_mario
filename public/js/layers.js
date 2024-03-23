@@ -10,9 +10,9 @@ export function createBackgroundLayer(level,sprites){
 
     let startIndex,endIndex;
     function redraw(drawFrom,drawTo){
-        if(drawFrom === startIndex && drawTo === endIndex){
-            return ;
-        }
+        // if(drawFrom === startIndex && drawTo === endIndex){
+        //     return ;
+        // }
         startIndex = drawFrom;
         endIndex = drawTo;
         
@@ -20,7 +20,13 @@ export function createBackgroundLayer(level,sprites){
             const col = tiles.grid[x];
             if(col){
                 col.forEach((tile,y) =>{
-                    sprites.drawTile(tile.name,context,x - startIndex,y);
+                    //if(tile.name === 'chance'){
+                    if(sprites.animation.has(tile.name)){
+                        sprites.drawAnim(tile.name,context,x - startIndex,y,level.totalTime)
+                    }else{
+                        sprites.drawTile(tile.name,context,x - startIndex,y);
+                    }
+                    
                 });
             }
         }
