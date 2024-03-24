@@ -11,6 +11,9 @@ export function setupKeyboard(entity){
         }
         //console.log(keyState);
     })
+    input.addMapping('KeyO',keyState =>{
+        entity.turbo(keyState);
+    })
     input.addMapping('KeyD',keyState =>{
         entity.go.dir += keyState ? 1 : -1;
     })

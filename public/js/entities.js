@@ -14,11 +14,18 @@ export function createMario(){
         mario.size.set(14,16);
 
         mario.addTrait(new Go());
+        mario.go.dragFactor = 1/1000;
+
         mario.addTrait(new Jump());
+
         //mario.addTrait(new Velocity());
 
+        mario.turbo = function setTurboState(turboOn){
+            this.go.dragFactor = turboOn ? 1/5000 : 1/1000;
+        }
 
-        const runAnim = createAnim(['run-1','run-2','run-3'],10);
+
+        const runAnim = createAnim(['run-1','run-2','run-3'],6);
         function routeFrame(mario){
             if (mario.jump.falling){
                 return 'jump';
