@@ -4,13 +4,18 @@ export default class Jump extends Trait{
     constructor(){
         super('jump');
 
-        this.ready = false;
+        this.ready = 0;
         this.duration = 0.5;
         this.velocity = 200;
         this.engageTime = 0;
     }
+
+    get falling(){
+        return this.ready < 0;
+    }
+
     start(){
-        if(this.ready){
+        if(this.ready > 0){
             this.engageTime = this.duration;
         }
     }
@@ -21,7 +26,7 @@ export default class Jump extends Trait{
 
     obstruct(entity,side){
         if (side === "bottom"){
-            this.ready = true;
+            this.ready = 1;
         }else if (side === "top"){
             this.cancel();
         }
@@ -33,6 +38,6 @@ export default class Jump extends Trait{
             this.engageTime -= deltaTime;
         }
 
-        this.ready = false;
+        this.ready--;
     }
 }
