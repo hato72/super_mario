@@ -20,7 +20,13 @@ export function createMario(){
 
         const runAnim = createAnim(['run-1','run-2','run-3'],10);
         function routeFrame(mario){
-            if(mario.go.dir !== 0){
+            if (!mario.jump.ready){
+                return 'jump';
+            }
+            if(mario.go.distance > 0){
+                if((mario.vel.x > 0 && mario.go.dir < 0) || (mario.vel.x < 0 && mario.go.dir > 0)){
+                    return "break";
+                }
                 // const frameIndex = Math.floor(mario.go.distance /10) % frames.length;
                 // const frameName = frames[frameIndex];
                 return runAnim(mario.go.distance);

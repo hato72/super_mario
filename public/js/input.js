@@ -3,7 +3,7 @@ import KeyboardState from './KeyboardState.js';
 export function setupKeyboard(entity){
     const input = new KeyboardState();
 
-    input.addMapping('Space',keyState =>{
+    input.addMapping('KeyP',keyState =>{
         if(keyState){
             entity.jump.start();
         }else{
@@ -11,11 +11,11 @@ export function setupKeyboard(entity){
         }
         //console.log(keyState);
     })
-    input.addMapping('ArrowRight',keyState =>{
-        entity.go.dir = keyState;
+    input.addMapping('KeyD',keyState =>{
+        entity.go.dir += keyState ? 1 : -1;
     })
-    input.addMapping('ArrowLeft',keyState =>{
-        entity.go.dir = -keyState;
+    input.addMapping('KeyA',keyState =>{
+        entity.go.dir += keyState ? -1 : 1;
     })
 
     return input;
