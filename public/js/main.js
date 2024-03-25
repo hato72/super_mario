@@ -1,4 +1,4 @@
-import {loadLevel} from './loaders.js'
+import { loadLevel } from './loaders/level.js';
 import { createMario } from './entities.js';
 import Timer from './Timer.js';
 import { createCollisionLayer,createCameraLayer, createSpriteLayer } from './layers.js';
