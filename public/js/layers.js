@@ -19,6 +19,7 @@ export function createBackgroundLayer(level,tiles,sprites){
         // }
         // startIndex = drawFrom;
         // endIndex = drawTo;
+        context.clearRect(0,0,buffer.width,buffer.height);
         
         for(let x= startIndex;x <= endIndex;++x){
             const col = tiles.grid[x];
