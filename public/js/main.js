@@ -1,36 +1,38 @@
 import { loadLevel } from './loaders/level.js';
-import { loadMario } from './entities/Mario.js';
+//import { loadMario } from './entities/Mario.js';
 import Timer from './Timer.js';
 import { createCollisionLayer,createCameraLayer, createSpriteLayer } from './layers.js';
 import { setupKeyboard } from './input.js';
 import Camera from './Camera.js';
 //import { setupMouseControl } from './debug.js';
 //import { loadMarioSprite } from './sprites.js';
-import { loadGoomba } from './entities/goomba.js';
-import { loadKoopa } from './entities/KoopaTroopa.js';
+//import { loadGoomba } from './entities/goomba.js';
+//import { loadKoopa } from './entities/KoopaTroopa.js';
+import { loadEntities } from './entities.js';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 Promise.all([
-    loadMario(),
-    loadGoomba(),
-    loadKoopa(),
+    // loadMario(),
+    // loadGoomba(),
+    // loadKoopa(),
+    loadEntities(),
     loadLevel('1-1'),
 ])
-.then(([createMario,createGoomba,createKoopa,level]) => {
+.then(([factory,level]) => {
     const camera = new Camera();
     window.camera = camera;
     //const comp = new Compositor();
 
-    const mario = createMario();
+    const mario = factory.mario();
     mario.pos.set(64,64);
 
-    const goomba = createGoomba();
+    const goomba = factory.goomba();
     goomba.pos.x = 220;
     level.entities.add(goomba);
 
-    const koopa = createKoopa();
+    const koopa = factory.koopa();
     koopa.pos.x = 260;
     level.entities.add(koopa);
 
