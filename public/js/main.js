@@ -1,25 +1,33 @@
 import { loadLevel } from './loaders/level.js';
-import { createMario } from './entities.js';
+import { loadMario } from './entities/Mario.js';
 import Timer from './Timer.js';
-import { createCollisionLayer,createCameraLayer, createSpriteLayer } from './layers.js';
+//import { createCollisionLayer,createCameraLayer, createSpriteLayer } from './layers.js';
 import { setupKeyboard } from './input.js';
 import Camera from './Camera.js';
-import { setupMouseControl } from './debug.js';
-import { loadMarioSprite } from './sprites.js';
+//import { setupMouseControl } from './debug.js';
+//import { loadMarioSprite } from './sprites.js';
+import { loadGoomba } from './entities/goomba.js';
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 Promise.all([
-    createMario(),
+    loadMario(),
+    loadGoomba(),
     loadLevel('1-1'),
 ])
-.then(([mario,level]) => {
+.then(([createMario,createGoomba,level]) => {
     const camera = new Camera();
     window.camera = camera;
     //const comp = new Compositor();
+
+    const mario = createMario();
     mario.pos.set(64,64);
-    //mario.vel.set(200,-600);
+
+    const goomba = createGoomba();
+    goomba.pos.x = 220;
+    level.entities.add(goomba);
+
 
     // level.comp.layers.push(
     //     createCollisionLayer(level),
