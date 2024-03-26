@@ -1,6 +1,7 @@
 import Entity from "../Entity.js";
 import { loadSpriteSheet } from "../loaders.js";
 import { createAnim } from "../Anim.js";
+import PendulumWalk from '../traits/PendulumWalk.js'
 
 export function loadGoomba(){
     return loadSpriteSheet('goomba')
@@ -19,19 +20,7 @@ function createGoombaFactory(sprite){
         goomba.size.set(16,16);
         //goomba.lifetime = 0;
 
-        goomba.addTrait({
-            NAME: 'walk',
-            speed: -30,
-            obstruct(goomba,side){
-                if(side === "left" || side === "right"){
-                    this.speed = -this.speed;
-                }
-            },
-            update(goomba){
-                //goomba.lifetime += deltaTime;
-                goomba.vel.x = this.speed;
-            }
-        })
+        goomba.addTrait(new PendulumWalk());
 
         goomba.draw = drawGoomba;
 
