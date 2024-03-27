@@ -1,6 +1,6 @@
 import { loadMario } from "./entities/Mario.js"
 import { loadGoomba } from "./entities/goomba.js"
-import { loadKoopa } from "./entities/KoopaTroopa.js"
+import { loadKoopa } from "./entities/Koopa.js"
 
 export function loadEntities(){
 

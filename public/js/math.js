@@ -1,27 +1,26 @@
-export class Matrix{
-    constructor(){
+export class Matrix {
+    constructor() {
         this.grid = [];
     }
 
-    forEach(callback){
-        this.grid.forEach((column,x) =>{
-            column.forEach((value,y) =>{
-                callback(value,x,y);
-                //sprites.drawTile(tile.name,context,x,y);
-            })
-        })
+    forEach(callback) {
+        this.grid.forEach((column, x) => {
+            column.forEach((value, y) => {
+                callback(value, x, y);
+            });
+        });
     }
 
-    get(x,y){
+    get(x, y) {
         const col = this.grid[x];
-        if(col){
+        if (col) {
             return col[y];
         }
         return undefined;
     }
 
-    set(x,y,value){
-        if(!this.grid[x]){
+    set(x, y, value) {
+        if (!this.grid[x]) {
             this.grid[x] = [];
         }
 
@@ -29,13 +28,12 @@ export class Matrix{
     }
 }
 
-window.Matrix = Matrix;
-
-export class Vec2{
-    constructor(x,y){
-        this.set(x,y);
+export class Vec2 {
+    constructor(x, y) {
+        this.set(x, y);
     }
-    set(x,y){
+
+    set(x, y) {
         this.x = x;
         this.y = y;
     }

@@ -1,5 +1,5 @@
 import TileResolver from './TileResolver.js';
-//import {Sides} from './Entity.js';
+import {Sides} from './Entity.js';
 
 export default class TileCollider {
     constructor(tileMatrix) {
@@ -30,14 +30,14 @@ export default class TileCollider {
                     entity.bounds.right = match.x1;
                     entity.vel.x = 0;
 
-                    entity.obstruct("right");
+                    entity.obstruct(Sides.RIGHT);
                 }
             } else if (entity.vel.x < 0) {
                 if (entity.bounds.left < match.x2) {
                     entity.bounds.left = match.x2;
                     entity.vel.x = 0;
 
-                    entity.obstruct("left");
+                    entity.obstruct(Sides.LEFT);
                 }
             }
         });
@@ -67,14 +67,14 @@ export default class TileCollider {
                     entity.bounds.bottom = match.y1;
                     entity.vel.y = 0;
 
-                    entity.obstruct("bottom");
+                    entity.obstruct(Sides.BOTTOM);
                 }
             } else if (entity.vel.y < 0) {
                 if (entity.bounds.top < match.y2) {
                     entity.bounds.top = match.y2;
                     entity.vel.y = 0;
 
-                    entity.obstruct("top");
+                    entity.obstruct(Sides.TOP);
                 }
             }
         });

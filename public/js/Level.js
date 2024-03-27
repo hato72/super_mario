@@ -1,4 +1,4 @@
-import {Compositor} from './Compositor.js';
+import Compositor from './Compositor.js';
 // import { Matrix } from './math.js';
 import TileCollider from './TileCollider.js';
 

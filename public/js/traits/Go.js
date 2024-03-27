@@ -1,11 +1,10 @@
 import {Trait} from '../Entity.js';
 
-export default class Go extends Trait{
-    constructor(){
+export default class Go extends Trait {
+    constructor() {
         super('go');
 
         this.dir = 0;
-        this.speed = 6000;
         this.acceleration = 400;
         this.deceleration = 300;
         this.dragFactor = 1/5000;
@@ -13,24 +12,25 @@ export default class Go extends Trait{
         this.distance = 0;
         this.heading = 1;
     }
-    update(entity,deltaTime){
-        //entity.vel.x = this.speed * this.dir * deltaTime;
+
+    update(entity, deltaTime) {
         const absX = Math.abs(entity.vel.x);
 
-        if(this.dir){
+        if (this.dir !== 0) {
             entity.vel.x += this.acceleration * deltaTime * this.dir;
-            if (entity.jump){
-                if(entity.jump.falling === false){
+
+            if (entity.jump) {
+                if (entity.jump.falling === false) {
                     this.heading = this.dir;
                 }
-            }else{
+            } else {
                 this.heading = this.dir;
             }
 
-        }else if (entity.vel.x !== 0){
-            const decel = Math.min(absX,this.deceleration * deltaTime);
+        } else if (entity.vel.x !== 0) {
+            const decel = Math.min(absX, this.deceleration * deltaTime);
             entity.vel.x += entity.vel.x > 0 ? -decel : decel;
-        }else{
+        } else {
             this.distance = 0;
         }
 
