@@ -1,4 +1,4 @@
-import { loadLevel } from './loaders/level.js';
+import { createLevelLoader } from './loaders/level.js';
 //import { loadMario } from './entities/Mario.js';
 import Timer from './Timer.js';
 import { createCollisionLayer,createCameraLayer, createSpriteLayer } from './layers.js';
@@ -10,32 +10,49 @@ import Camera from './Camera.js';
 //import { loadKoopa } from './entities/KoopaTroopa.js';
 import { loadEntities } from './entities.js';
 
-const canvas = document.getElementById('screen');
-const context = canvas.getContext('2d');
 
-Promise.all([
-    // loadMario(),
-    // loadGoomba(),
-    // loadKoopa(),
-    loadEntities(),
-    loadLevel('1-1'),
-])
-.then(([factory,level]) => {
+async function main(canvas){
+    const context = canvas.getContext('2d');
+    const entityFactory = await loadEntities();
+    const loadLevel = await createLevelLoader(entityFactory);
+
+    const level = await loadLevel('1-1');
+
+// loadEntities()
+// .then(entityFactory => Promise.all([
+//     entityFactory,
+//     createLevelLoader(entityFactory),
+// ]))
+// .then(([entityFactory,loadLevel]) => Promise.all([
+//     entityFactory,
+//     loadLevel('1-1')
+// ]))
+// Promise.all([
+//     // loadMario(),
+//     // loadGoomba(),
+//     // loadKoopa(),
+//     loadEntities(),
+//  createLevelLoader()('1-1'),
+// ])
+
+// .then(([factory,level]) => {
+    
     const camera = new Camera();
-    window.camera = camera;
+    
     //const comp = new Compositor();
 
-    const mario = factory.mario();
+    const mario = entityFactory.mario();
     mario.pos.set(64,64);
 
-    const goomba = factory.goomba();
+    const goomba = entityFactory.goomba();
     goomba.pos.x = 220;
     level.entities.add(goomba);
 
-    const koopa = factory.koopa();
+    const koopa = entityFactory.koopa();
     koopa.pos.x = 260;
     level.entities.add(koopa);
 
+    level.entities.add(mario);
 
     // level.comp.layers.push(
     //     createCollisionLayer(level),
@@ -44,8 +61,6 @@ Promise.all([
     level.comp.layers.push(
         createCollisionLayer(level)
     )
-
-    level.entities.add(mario);
 
     const input = setupKeyboard(mario);
     input.listenTo(window);
@@ -59,10 +74,12 @@ Promise.all([
         if (mario.pos.x > 100){
             camera.pos.x = mario.pos.x - 100;
         }
-
         level.comp.draw(context,camera);
     }
     timer.start()
-});
-
+// });
+}
     
+
+const canvas = document.getElementById('screen');
+main(canvas);
