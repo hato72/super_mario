@@ -1,9 +1,9 @@
 import Entity from '../Entity.js';
 import Go from '../traits/Go.js';
 import Jump from '../traits/Jump.js';
+import Killable from '../traits/Killable.js';
 import Stomper from '../traits/Stomper.js';
 import {loadSpriteSheet} from '../loaders.js';
-import Killable from '../traits/Killable.js';
 
 const SLOW_DRAG = 1/1000;
 const FAST_DRAG = 1/5000;

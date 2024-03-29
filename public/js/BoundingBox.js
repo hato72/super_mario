@@ -5,10 +5,11 @@ export default class BoundingBox {
         this.offset = offset;
     }
 
-    overlaps(box){
-        return (
-            this.bottom > box.top && this.top < box.bottom && 
-            this.left < box.right && this.right > box.left);
+    overlaps(box) {
+        return this.bottom > box.top
+            && this.top < box.bottom
+            && this.left < box.right
+            && this.right > box.left;
     }
 
     get bottom() {

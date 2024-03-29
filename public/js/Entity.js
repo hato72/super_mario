@@ -13,8 +13,8 @@ export class Trait {
         this.NAME = name;
     }
 
-    collides(us,them){
-        
+    collides(us, them) {
+
     }
 
     obstruct() {
@@ -22,12 +22,14 @@ export class Trait {
     }
 
     update() {
-        //console.warn('Unhandled update call in Trait');
+
     }
 }
 
 export default class Entity {
     constructor() {
+        this.canCollide = true;
+
         this.pos = new Vec2(0, 0);
         this.vel = new Vec2(0, 0);
         this.size = new Vec2(0, 0);
@@ -55,13 +57,13 @@ export default class Entity {
         });
     }
 
-    draw(){
-        
+    draw() {
+
     }
 
-    update(deltaTime,level) {
+    update(deltaTime, level) {
         this.traits.forEach(trait => {
-            trait.update(this, deltaTime,level);
+            trait.update(this, deltaTime, level);
         });
 
         this.lifetime += deltaTime;
