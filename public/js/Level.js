@@ -22,23 +22,30 @@ export default class Level {
         this.entities.forEach(entity => {
             entity.update(deltaTime, this);
 
-            entity.pos.x += entity.vel.x * deltaTime;
-            if (entity.canCollide) {
-                this.tileCollider.checkX(entity);
-            }
+            // entity.pos.x += entity.vel.x * deltaTime;
+            // // if (entity.canCollide) {
+            // //     this.tileCollider.checkX(entity);
+            // // }
+            // this.tileCollider.checkX(entity);
 
-            entity.pos.y += entity.vel.y * deltaTime;
-            if (entity.canCollide) {
-                this.tileCollider.checkY(entity);
-            }
+            // entity.pos.y += entity.vel.y * deltaTime;
+            // // if (entity.canCollide) {
+            // //     this.tileCollider.checkY(entity);
+            // // }
+            // this.tileCollider.checkY(entity);
 
-            entity.vel.y += this.gravity * deltaTime;
+            // entity.vel.y += this.gravity * deltaTime;
         });
 
         this.entities.forEach(entity => {
-            if (entity.canCollide) {
-                this.entityCollider.check(entity);
-            }
+            // if (entity.canCollide) {
+            //     this.entityCollider.check(entity);
+            // }
+            this.entityCollider.check(entity);
+        });
+
+        this.entities.forEach(entity => {
+            entity.finalize();
         });
 
         this.totalTime += deltaTime;
