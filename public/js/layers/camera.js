@@ -1,5 +1,3 @@
-
-
 export function createCameraLayer(cameraToDraw) {
     return function drawCameraRect(context, fromCamera) {
         context.strokeStyle = 'purple';
