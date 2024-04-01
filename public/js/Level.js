@@ -18,9 +18,9 @@ export default class Level {
         this.tileCollider = new TileCollider(matrix);
     }
 
-    update(deltaTime) {
+    update(gameContext) {
         this.entities.forEach(entity => {
-            entity.update(deltaTime, this);
+            entity.update(gameContext, this);
 
             // entity.pos.x += entity.vel.x * deltaTime;
             // // if (entity.canCollide) {
@@ -48,6 +48,6 @@ export default class Level {
             entity.finalize();
         });
 
-        this.totalTime += deltaTime;
+        this.totalTime += gameContext.deltaTime;
     }
 }

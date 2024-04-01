@@ -9,6 +9,7 @@ import {setupKeyboard} from './input.js';
 import { createCollisionLayer } from './layers/collision.js';
 import { loadFont } from './loaders/font.js';
 import { createDashboardLayer } from './layers/dashboard.js';
+import { createAudioLoader } from './loaders/audio.js';
 
 function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();
@@ -19,6 +20,23 @@ function createPlayerEnv(playerEntity) {
     return playerEnv;
 }
 
+class AudioBoard{
+    constructor(context){
+        this.context = context;
+        this.buffers = new Map();
+    }
+    addAudio(name,buffer){
+        this.buffers.set(name,buffer);
+    }
+
+    playAudio(name){
+        const source = this.context.createBufferSource();
+        source.connect(this.context.destination);
+        source.buffer = this.buffers.get(name);
+        source.start(0);
+    }
+}
+
 async function main(canvas) {
     const context = canvas.getContext('2d');
 
@@ -26,6 +44,19 @@ async function main(canvas) {
         loadEntities(),
         loadFont()
     ]);
+
+    const audioContext = new AudioContext();
+    const audioBoard = new AudioBoard(audioContext);
+    const loadAudio = createAudioLoader(audioContext);
+    loadAudio('/audio/jump.ogg')
+    .then(buffer =>{
+        audioBoard.addAudio('jump',buffer);
+        //audioBoard.playAudio('jump');
+        // const source = audioContext.createBufferSource();
+        // source.connect(audioContext.destination);
+        // source.buffer = buffer;
+        // source.start(0);
+    })
 
     const loadLevel = await createLevelLoader(entityFactory);
 
@@ -45,9 +76,15 @@ async function main(canvas) {
     const input = setupKeyboard(mario);
     input.listenTo(window);
 
+    const gameContext = {
+        audioBoard,
+        deltaTime: null,
+    }
+
     const timer = new Timer(1/60);
     timer.update = function update(deltaTime) {
-        level.update(deltaTime);
+        gameContext.deltaTime = deltaTime;
+        level.update(gameContext);
 
         camera.pos.x = Math.max(0, mario.pos.x - 100);
 
@@ -61,4 +98,11 @@ async function main(canvas) {
 }
 
 const canvas = document.getElementById('screen');
-main(canvas);
+
+const start = () =>{
+    window.removeEventListener('click',start);
+    main(canvas);
+};
+
+window.addEventListener('click',start);
+//main(canvas);
