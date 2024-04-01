@@ -6,16 +6,29 @@ import Stomper from '../traits/Stomper.js';
 import {loadSpriteSheet} from '../loaders.js';
 import Solid from '../traits/Solid.js';
 import Physics from '../traits/Physics.js';
+import { loadAudioBoard } from '../loaders/audio.js';
 
 const SLOW_DRAG = 1/1000;
 const FAST_DRAG = 1/5000;
 
-export function loadMario() {
-    return loadSpriteSheet('mario')
-    .then(createMarioFactory);
+export function loadMario(audioContext) {
+    // loadAudioBoard('mario',audioContext)
+    // .then(audioBoard =>{
+
+    // });
+    // return loadSpriteSheet('mario')
+    // .then(createMarioFactory);
+
+    return Promise.all([
+        loadSpriteSheet('mario'),
+        loadAudioBoard('mario',audioContext),
+    ])
+    .then(([sprite,audio]) =>{
+        return createMarioFactory(sprite,audio);
+    });
 }
 
-function createMarioFactory(sprite) {
+function createMarioFactory(sprite,audio) {
     const runAnim = sprite.animations.get('run');
 
     function routeFrame(mario) {
@@ -44,6 +57,7 @@ function createMarioFactory(sprite) {
 
     return function createMario() {
         const mario = new Entity();
+        mario.audio = audio;
         mario.size.set(14, 16);
 
         mario.addTrait(new Go());
