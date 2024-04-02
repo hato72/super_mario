@@ -14,7 +14,6 @@ export default class Go extends Trait {
     }
 
     update(entity, {deltaTime}) {
-        //const deltaTime = gameContext.deltaTime;
         const absX = Math.abs(entity.vel.x);
 
         if (this.dir !== 0) {

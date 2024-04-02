@@ -11,6 +11,13 @@ export class Matrix {
         });
     }
 
+    delete(x, y) {
+        const col = this.grid[x];
+        if (col) {
+            delete col[y];
+        }
+    }
+
     get(x, y) {
         const col = this.grid[x];
         if (col) {
@@ -31,6 +38,11 @@ export class Matrix {
 export class Vec2 {
     constructor(x, y) {
         this.set(x, y);
+    }
+
+    copy(vec2) {
+        this.x = vec2.x;
+        this.y = vec2.y;
     }
 
     set(x, y) {

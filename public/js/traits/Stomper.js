@@ -4,10 +4,6 @@ export default class Stomper extends Trait {
     constructor() {
         super('stomper');
         this.bounceSpeed = 400;
-        //this.didStomp = false;
-
-        // this.onStomp = function(){
-        // }
     }
 
     bounce(us, them) {
@@ -16,24 +12,14 @@ export default class Stomper extends Trait {
     }
 
     collides(us, them) {
-        if (!them.killable || them.killable.dead){
-            return ;
+        if (!them.killable || them.killable.dead) {
+            return;
         }
-            
-        if(us.vel.y > them.vel.y) {
-            this.bounce(us, them);
-            //this.didStomp = true;
-            this.sounds.add('stomp');
-            this.events.emit('stomp',us,them);
-            //this.onStomp(us,them);
+
+        if (us.vel.y > them.vel.y) {
+            this.queue(() => this.bounce(us, them));
+            us.sounds.add('stomp');
+            this.events.emit('stomp', us, them);
         }
     }
-
-    // update(entity,{audioContext}){
-    //     if(this.didStomp){
-    //         this.sounds.add('stomp');
-    //         //entity.audio.playAudio('stomp',audioContext);
-    //         this.didStomp = false;
-    //     }
-    // }
 }

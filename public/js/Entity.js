@@ -1,6 +1,6 @@
 import {Vec2} from './math.js';
-import BoundingBox from './BoundingBox.js';
 import AudioBoard from './AudioBoard.js';
+import BoundingBox from './BoundingBox.js';
 import EventEmitter from './EventEmitter.js';
 
 export const Sides = {
@@ -15,16 +15,15 @@ export class Trait {
         this.NAME = name;
 
         this.events = new EventEmitter();
-        this.sounds = new Set();
         this.tasks = [];
     }
 
-    finalize(){
+    finalize() {
         this.tasks.forEach(task => task());
         this.tasks.length = 0;
     }
 
-    queue(task){
+    queue(task) {
         this.tasks.push(task);
     }
 
@@ -36,13 +35,6 @@ export class Trait {
 
     }
 
-    playSounds(audioBoard,audioContext){
-        this.sounds.forEach(name =>{
-            audioBoard.playAudio(name,audioContext);
-        });
-        this.sounds.clear();
-    }
-
     update() {
 
     }
@@ -50,8 +42,9 @@ export class Trait {
 
 export default class Entity {
     constructor() {
-        //this.canCollide = true;
         this.audio = new AudioBoard();
+        this.sounds = new Set();
+
         this.pos = new Vec2(0, 0);
         this.vel = new Vec2(0, 0);
         this.size = new Vec2(0, 0);
@@ -73,9 +66,9 @@ export default class Entity {
         });
     }
 
-    obstruct(side,match) {
+    obstruct(side, match) {
         this.traits.forEach(trait => {
-            trait.obstruct(this, side,match);
+            trait.obstruct(this, side, match);
         });
     }
 
@@ -83,17 +76,26 @@ export default class Entity {
 
     }
 
-    finalize(){
-        this.traits.forEach(trait =>{
+    finalize() {
+        this.traits.forEach(trait => {
             trait.finalize();
-        })
+        });
+    }
+
+    playSounds(audioBoard, audioContext) {
+        this.sounds.forEach(name => {
+            audioBoard.playAudio(name, audioContext);
+        });
+
+        this.sounds.clear();
     }
 
     update(gameContext, level) {
         this.traits.forEach(trait => {
             trait.update(this, gameContext, level);
-            trait.playSounds(this.audio,gameContext.audioContext);
         });
+
+        this.playSounds(this.audio, gameContext.audioContext);
 
         this.lifetime += gameContext.deltaTime;
     }
