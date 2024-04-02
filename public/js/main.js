@@ -11,6 +11,9 @@ import { loadFont } from './loaders/font.js';
 import { createDashboardLayer } from './layers/dashboard.js';
 import { createAudioLoader } from './loaders/audio.js';
 import AudioBoard from './AudioBoard.js';
+//import EventEmitter from './EventEmitter.js';
+
+//window.EventEmitter = EventEmitter;
 
 function createPlayerEnv(playerEntity) {
     const playerEnv = new Entity();

@@ -6,8 +6,8 @@ export default class Stomper extends Trait {
         this.bounceSpeed = 400;
         //this.didStomp = false;
 
-        this.onStomp = function(){
-        }
+        // this.onStomp = function(){
+        // }
     }
 
     bounce(us, them) {
@@ -24,7 +24,8 @@ export default class Stomper extends Trait {
             this.bounce(us, them);
             //this.didStomp = true;
             this.sounds.add('stomp');
-            this.onStomp(us,them);
+            this.events.emit('stomp',us,them);
+            //this.onStomp(us,them);
         }
     }
 
