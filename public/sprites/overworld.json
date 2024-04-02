@@ -1,40 +1,41 @@
 {
-    "imageURL":"img/tiles.png",
+    "imageURL": "/img/tiles.png",
     "tileW": 16,
     "tileH": 16,
 
     "tiles": [
         {
-            "name":"ground",
-            "index": [0,0]
+            "name": "ground",
+            "index": [0, 0]
         },
         {
-            "name":"sky",
-            "index":[3,23]
-        },
-        {
-            "name":"chance",
-            "index": [24,0]
-        },
-        {
-            "name":"chance-1",
-            "index": [24,0]
-        },
-        {
-            "name":"chance-2",
-            "index": [25,0]
-        },
-        {
-            "name":"chance-3",
-            "index": [26,0]
-        },
-        {
-            "name":"bricks",
-            "index": [2,0]
+            "name": "sky",
+            "index": [3, 23]
         },
         {
             "name": "chocolate",
-            "index": [0,1]
+            "index": [0, 1]
+        },
+        {
+            "name": "bricks",
+            "index": [1, 0]
+        },
+        {
+            "name": "chance",
+            "index": [24, 0]
+        },
+
+        {
+            "name": "chance-1",
+            "index": [24, 0]
+        },
+        {
+            "name": "chance-2",
+            "index": [25, 0]
+        },
+        {
+            "name": "chance-3",
+            "index": [26, 0]
         },
 
         {
@@ -76,13 +77,25 @@
         {
             "name": "cloud-2-3",
             "index": [2, 21]
+        },
+        {
+            "name": "cannon-1",
+            "index": [9, 0]
+        },
+        {
+            "name": "cannon-2",
+            "index": [8, 1]
+        },
+        {
+            "name": "cannon-3",
+            "index": [9, 1]
         }
     ],
 
     "animations": [
         {
             "name": "chance",
-            "frameLen": 0.2,
+            "frameLen": 0.12,
             "frames": [
                 "chance-1",
                 "chance-1",
@@ -93,4 +106,3 @@
         }
     ]
 }
- 
