@@ -1,7 +1,8 @@
 import {Vec2} from './math.js';
 import AudioBoard from './AudioBoard.js';
 import BoundingBox from './BoundingBox.js';
-import EventEmitter from './EventEmitter.js';
+//import EventEmitter from './EventEmitter.js';
+import EventBuffer from './EventBuffer.js';
 
 export const Sides = {
     TOP: Symbol('top'),
@@ -11,20 +12,37 @@ export const Sides = {
 };
 
 export class Trait {
+    static EVENT_task = Symbol('task');
+
     constructor(name) {
         this.NAME = name;
 
-        this.events = new EventEmitter();
-        this.tasks = [];
+        // this.events = new EventBuffer();
+        //this.tasks = [];
+        this.listeners = [];
     }
 
-    finalize() {
-        this.tasks.forEach(task => task());
-        this.tasks.length = 0;
+    listen(name,callback,count = Infinity){
+        const listener = {name,callback,count};
+        this.listeners.push(listener);
+    }
+
+    finalize(entity) {
+        this.listeners = this.listeners.filter(listener =>{
+            entity.events.process(listener.name,listener.callback);
+            return --listener.count;
+        })
+        // for (const listener of this.listeners){
+        //     entity.events.process(listener.name,listener.callback);
+        // }
+
+        // this.tasks.forEach(task => task());
+        // this.tasks.length = 0;
     }
 
     queue(task) {
-        this.tasks.push(task);
+        this.listen(Trait.EVENT_task,task,1);
+        //this.tasks.push(task);
     }
 
     collides(us, them) {
@@ -40,10 +58,28 @@ export class Trait {
     }
 }
 
+// class Parent{
+//     constructor(){
+//         this.child = null;
+//     }
+
+//     setChild(child){
+//         this.child = child;
+//     }
+// }
+
+// class Child{
+//     constructor(parent){
+//         this.parent = parent;
+//     }
+// }
+
 export default class Entity {
     constructor() {
         this.audio = new AudioBoard();
         this.sounds = new Set();
+
+        this.events = new EventBuffer();
 
         this.pos = new Vec2(0, 0);
         this.vel = new Vec2(0, 0);
@@ -58,6 +94,7 @@ export default class Entity {
     addTrait(trait) {
         this.traits.push(trait);
         this[trait.NAME] = trait;
+        this.entity = this;
     }
 
     collides(candidate) {
@@ -77,9 +114,13 @@ export default class Entity {
     }
 
     finalize() {
+        this.events.emit(Trait.EVENT_task);
+
         this.traits.forEach(trait => {
-            trait.finalize();
+            trait.finalize(this);
         });
+
+        this.events.clear();
     }
 
     playSounds(audioBoard, audioContext) {
