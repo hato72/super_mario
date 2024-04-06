@@ -3,7 +3,6 @@ This project is based on [Meth Meth Method](https://www.youtube.com/MethMethMeth
 
 ## Running
 
-* Run `npm install`
-* Run `npm start
+* Run `npm start`
 
 #### 制作中
